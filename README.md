@@ -20,3 +20,12 @@ The script accepts a directory, processes scans previously prepared in [Scantail
 ### Prepairing
 - Process the scans in Scantailor Advanced so the `out` folder need to contains subfolders `foreground` and/or `background`
 - The script supports Scantailor color segmentation of a page. This page must not contain a full-color layer in the `background` folder.
+
+## recode-pdf.sh
+### Requirements
+- archive-pdf-tools from internetarchive
+### Description
+### Prepairing
+- create python venv
+- activate venv
+- `pip install archive-pdf-tools` 
