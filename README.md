@@ -16,10 +16,10 @@ The script accepts a directory path and, for each of its subfolders:
 - tifftopnm from netbpm
 - identify from imagemagick
 ### Description
-The script accepts a directory, processes scans previously prepared in [Scantailor Advanced](https://github.com/4lex4/scantailor-advanced), then generates a combined djvu.
-### Prepairing
-- Process the scans in Scantailor Advanced so the `out` folder need to contains subfolders `foreground` and/or `background`
-- The script supports Scantailor color segmentation of a page. This page must not contain a full-color layer in the `background` folder.
+The script takes a directory as input, processes scans previously prepared in [Scantailor Advanced](https://github.com/4lex4/scantailor-advanced), and generates a combined DjVu file.
+### Preparing
+- Process the scans in Scantailor Advanced so that the `out` folder contains the subfolders `foreground` and/or `background`.
+- The script supports Scantailor’s page color segmentation. A segmented page must not include a full‑color layer in the `background` folder.
 
 ## recode-pdf.sh
 ### Requirements
