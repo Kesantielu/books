@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [ -z "$VIRTUAL_ENV" ]; then
-    echo "Error: скрипт должен быть запущен внутри venv!"
-    exit 1
-fi
-
 # Проверка наличия аргумента
 if [ $# -lt 1 ]; then
   echo "Usage: $0 /path/to/directory"
