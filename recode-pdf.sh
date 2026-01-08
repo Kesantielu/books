@@ -20,57 +20,45 @@ if [ ! -d "$target_dir" ]; then
     exit 1
 fi
 
-# Создаём папку для результатов, если её нет
-mkdir -p "processed"
+# Проверяем наличие hocr.html
+if [ -f "$folder/hocr.html" ]; then
+	hocr=true
+fi
 
-# Обрабатываем каждую поддиректорию
-for folder in "$target_dir"/*/; do
-    # Удаляем завершающий слэш
-    folder="${folder%/}"
-    
-    # Проверяем наличие hocr.html
-    if [ -f "$folder/hocr.html" ]; then
-        echo "Обработка: $folder"
+# Ищем первый JPG-файл в папке
+first_jpg=$(find "$target_dir" -maxdepth 1 -type f -iname "*.jpg" -print -quit)
 
-        # Ищем первый JPG-файл в папке
-        first_jpg=$(find "$folder" -maxdepth 1 -type f -iname "*.jpg" -print -quit)
-        
-        # Если JPG-файлов нет - пропускаем
-        if [ -z "$first_jpg" ]; then
-            echo "Предупреждение: Нет JPG-файлов в $folder"
-            continue
-        fi
+# Если JPG-файлов нет - пропускаем
+if [ -z "$first_jpg" ]; then
+	echo "Предупреждение: Нет JPG-файлов в $target_dir"
+	continue
+fi
 
-        # Получаем DPI из метаданных
-        dpi=$(exiftool -T -XResolution "$first_jpg" | awk '{print int($1)}')
-		
-		# Формируем путь к выходному PDF
-        output_pdf="processed/$(basename "$folder").pdf"
-        
-		# Запускаем recode_pdf и проверяем результат
-        if recode_pdf \
-            -I "$folder/*.jpg" \
-            -T "$folder/hocr.html" \
-            -D "$dpi" \
-            --mask-compression jbig2 \
-            --threads 2 \
-            --report-every 10 \
-            -o "$output_pdf"; then
+# Получаем DPI из метаданных
+dpi=$(exiftool -T -XResolution "$first_jpg" | awk '{print int($1)}')
 
-            # Дополнительная проверка существования PDF
-            if [ -f "$output_pdf" ]; then
-                echo "Успешно создан: $output_pdf"
-                rm -f "$folder/hocr.html" && echo "Удалён: $folder/hocr.html"
-            else
-                echo "Ошибка: PDF не создан для $folder"
-            fi
-        else
-            echo "Ошибка: recode_pdf завершился с ошибкой для $folder"
-        fi
+# Формируем путь к выходному PDF
+output_pdf="$(basename "$target_dir").pdf"
 
-    else
-        echo "Пропуск: $folder (hocr.html не найден)"
-    fi
-done
+# Запускаем recode_pdf и проверяем результат
+if recode_pdf \
+	-I "$target_dir/*.jpg" \
+	$( [[ "$hocr" == true ]] && echo -T "$target_dir/hocr.html" ) \
+	-D "$dpi" \
+	--mask-compression jbig2 \
+	--threads 2 \
+	--report-every 10 \
+	-o "$output_pdf"; then
 
-echo "Готово! Результаты в папке processed/"
+	# Дополнительная проверка существования PDF
+	if [ -f "$output_pdf" ]; then
+		echo "Успешно создан: $output_pdf"
+		rm -f "$target_dir/hocr.html" && echo "Удалён: $target_dir/hocr.html"
+	else
+		echo "Ошибка: PDF не создан для $target_dir"
+	fi
+else
+	echo "Ошибка: recode_pdf завершился с ошибкой для $target_dir"
+fi
+
+echo "Готово! Результат в папке $target_dir"
