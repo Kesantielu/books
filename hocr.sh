@@ -41,5 +41,19 @@ for file in "$INPUT_DIR"/*."$FILE_EXT"; do
     tesseract "$file" - -l "$LANG" --dpi "$DPI" hocr > "$OUTPUT_DIR/${base}.hocr.html"
 done
 
-echo "Обработка завершена. Результаты сохранены в каталоге '$OUTPUT_DIR'"
+# Combine single hocr files into one
+
+if hocr-combine-stream -g "$OUTPUT_DIR/*.html" > "$INPUT_DIR/hocr.html"; then
+    # Дополнительная проверка существования hocr.html
+    if [ -f "$INPUT_DIR/hocr.html" ]; then
+        echo "Успешно создан: $INPUT_DIR/hocr.html"
+    else
+        echo "Ошибка: $INPUT_DIR/hocr.html не создан"
+    fi
+else
+    echo "Ошибка: hocr-combine-stream завершился с ошибкой для $folder"
+fi
+
+rm -r $OUTPUT_DIR
+echo "Обработка завершена. Результаты сохранены в каталоге '$INPUT_DIR'"
 
