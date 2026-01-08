@@ -40,4 +40,10 @@ The script is a wrapper around the `hocr-combine-stream` command from the `archi
 ### Prepairing
 - create python venv
 - activate venv
-- `pip install archive-pdf-tools` 
+- `pip install archive-pdf-tools`
+
+## grk-pdf.sh
+## Requirements
+- grk_compress from grokj2k-tools
+### Description
+The script is a wrapper around the `grk_compress` command from the ` grokj2k-tools` package. It generates high quality PDF by default
