@@ -1,14 +1,7 @@
 # books
 Scripts for books processing
 
-## average_dpi.sh
-### Requirements
-- exiftool
-### Description
-The script accepts a directory path and, for each of its subfolders:
-- Searches for `*.jpg` files  
-- Extracts the DPI (XResolution tag) from each file using **exiftool**  
-- Calculates and displays the average DPI value
+
 
 ## djvu.sh
 ### Requirements
@@ -30,7 +23,13 @@ The script serves as a wrapper around the `recode_pdf` command from the `archive
 ### Prepairing
 - create python venv
 - activate venv
-- `pip install archive-pdf-tools` 
+- `pip install archive-pdf-tools`
+
+## hocr.sh
+### Requirements
+- tesseract
+### Description
+The script is a wrapper around the `tesseract` package. It generates hOCR file for every page of a scanned document.
 
 ## hocr-combine.sh
 ### Requirements
@@ -41,9 +40,19 @@ The script is a wrapper around the `hocr-combine-stream` command from the `archi
 - create python venv
 - activate venv
 - `pip install archive-pdf-tools`
+- create hocr files for pages with hocr.sh
 
 ## grk-pdf.sh
 ## Requirements
 - grk_compress from grokj2k-tools
 ### Description
 The script is a wrapper around the `grk_compress` command from the ` grokj2k-tools` package. It generates high quality PDF by default
+
+## average_dpi.sh
+### Requirements
+- exiftool
+### Description
+The script accepts a directory path and, for each of its subfolders:
+- Searches for `*.jpg` files  
+- Extracts the DPI (XResolution tag) from each file using **exiftool**  
+- Calculates and displays the average DPI value
