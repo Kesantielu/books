@@ -24,8 +24,19 @@ The script accepts a directory, processes scans previously prepared in [Scantail
 ## recode-pdf.sh
 ### Requirements
 - archive-pdf-tools from internetarchive
-- hOCR data for pages
+- combined hOCR data file for pages
 ### Description
+The script serves as a wrapper around the `recode_pdf` command from the `archive-pdf-tool` package. It automatically adds an hOCR text layer, while `recode_pdf` itself produces a highly compressed Mixed Raster Content (MRC) PDF.
+### Prepairing
+- create python venv
+- activate venv
+- `pip install archive-pdf-tools` 
+
+## hocr-combine.sh
+### Requirements
+- archive-pdf-tools from internetarchive
+### Description
+The script is a wrapper around the `hocr-combine-stream` command from the `archive-pdf-tool` package.
 ### Prepairing
 - create python venv
 - activate venv
