@@ -1,8 +1,13 @@
 #!/bin/bash
 
+if [ -z "$VIRTUAL_ENV" ]; then
+    echo "Error: скрипт должен быть запущен внутри venv!"
+    exit 1
+fi
+
 # Проверка наличия аргумента
 if [ $# -lt 1 ]; then
-  echo "Usage: $0 /path/to/directory [-force ignore hocr]"
+  echo "Usage: $0 /path/to/directory"
   exit 1
 fi
 
@@ -12,12 +17,6 @@ target_dir="$1"
 mkdir -p "processed"
 
 shopt -s nullglob
-
-# Пропускаем, если eсть папка hocr
-if [ -d "$target_dir/hocr" ] && [ $2 -ne "-force"]; then
-	echo "Пропуск: в $target_dir есть hocr"
-	exit 1
-fi
 
 # Проверка JPG-файлов
 jpg_files=("$target_dir"/*.jpg)
@@ -53,7 +52,6 @@ if [ -f "$output_pdf" ]; then
     output_pdf="processed/$(basename "$target_dir")_grk.pdf"
 fi
 if img2pdf "$target_dir/jp2"/*.jp2 -o "$output_pdf"; then
-	# Удаляем временные файлы
 	rm -rf "$folder/jp2"
 	echo "Успешно: $output_pdf"
 else
