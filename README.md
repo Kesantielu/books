@@ -24,6 +24,7 @@ The script accepts a directory, processes scans previously prepared in [Scantail
 ## recode-pdf.sh
 ### Requirements
 - archive-pdf-tools from internetarchive
+- hOCR data for pages
 ### Description
 ### Prepairing
 - create python venv
