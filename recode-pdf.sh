@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ -z "$VIRTUAL_ENV" ]; then
+    echo "Ошибка: скрипт должен быть запущен внутри venv!"
+    exit 1
+fi
+
 # Проверяем наличие аргумента с путём
 if [ $# -eq 0 ]; then
     echo "Ошибка: Укажите целевую директорию."
@@ -14,9 +19,6 @@ if [ ! -d "$target_dir" ]; then
     echo "Ошибка: Директория '$target_dir' не существует."
     exit 1
 fi
-
-# Активируем виртуальное окружение
-source ~/archtools/venv/bin/activate || exit 1
 
 # Создаём папку для результатов, если её нет
 mkdir -p "processed"
